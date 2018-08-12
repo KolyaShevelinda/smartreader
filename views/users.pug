@@ -1,0 +1,14 @@
+html
+    head
+        title= "New User"
+    body
+        h1= "Add new user:"
+
+        form(ref='uploadForm' id='uploadForm' action='http://localhost:3000/users/create' method='post' encType="multipart/form-data")
+            label(for='email') Email:
+            input(name="email" type="text" id="email")
+            br
+            label(for='password') Password:
+            input(name="password" type="password" id="password")
+            br
+            input(type='submit' value='Add')

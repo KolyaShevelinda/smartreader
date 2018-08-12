@@ -1,21 +1,30 @@
 const client = require('./index');
 
-var Accounts = {};
+let Accounts = {};
 
 Accounts.findOneByEmail = function (email) {
-
-    client.connect();
-
     const query = 'SELECT * FROM accounts WHERE email=$1';
     const values = [email];
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         client.query(query, values, (err, res) => {
-            if(err) {
+            if (err) {
                 reject(err);
             }
-            // console.log(err ? err.stack : res.rows[0]);
-            client.end();
+            resolve(res.rows[0]);
+        });
+    })
+};
+
+Accounts.findOneById = function (id) {
+    const query = 'SELECT * FROM accounts WHERE id=$1';
+    const values = [id];
+
+    return new Promise(function (resolve, reject) {
+        client.query(query, values, (err, res) => {
+            if (err) {
+                reject(err);
+            }
             resolve(res.rows[0]);
         });
     })
@@ -23,19 +32,15 @@ Accounts.findOneByEmail = function (email) {
 
 
 Accounts.findAll = function () {
-
-    client.connect();
-
     const query = 'SELECT * FROM accounts';
     const values = [];
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         client.query(query, values, (err, res) => {
-            if(err) {
+            if (err) {
                 reject(err);
+                console.log(err);
             }
-            console.log(err ? err.stack : res.rows[0]);
-            client.end();
             resolve(res.rows);
         });
     })
@@ -43,16 +48,18 @@ Accounts.findAll = function () {
 
 
 Accounts.createAccount = function (email, password) {
-
-    client.connect();
-
-    const query = 'INSERT INTO accounts';
+    const query = 'INSERT INTO accounts(email, password) VALUES($1, $2)  RETURNING *';
     const values = [email, password];
 
-    client.query(query, values, (err, res) => {
-        console.log(err ? err.stack : res.rows[0]);
-        client.end()
-    });
+    return new Promise(function (resolve, reject) {
+        client.query(query, values, (err, res) => {
+            if (err) {
+                reject(err);
+                console.log(err);
+            }
+            resolve(res.rows[0]);
+        });
+    })
 };
 
 

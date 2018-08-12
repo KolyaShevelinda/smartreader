@@ -4,7 +4,7 @@ const pdfParser = require('pdf-parser');
 
 
 
-router.post('files/upload', function (req, res) {
+router.post('/upload', function (req, res) {
     if (!req.files.foo)
         return res.status(400).send('No files were uploaded.');
 
@@ -46,11 +46,11 @@ function getTextFromPages(pages) {
 
 
 function saveDocument(path, text, html) {
-    const text = 'INSERT INTO documents(path, text, html) VALUES($1, $2, $3) RETURNING *';
+    const query = 'INSERT INTO documents(path, text, html) VALUES($1, $2, $3) RETURNING *';
     const values = [path, text, html];
 
     // callback
-    client.query(text, values, (err, res) => {
+    client.query(query, values, (err, res) => {
         if (err) {
             console.log(err.stack)
         } else {

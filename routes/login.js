@@ -1,4 +1,4 @@
-const accounts = require('../db/accounts');
+const accounts = require('../models/accounts');
 
 
 accounts.findOneByEmail()

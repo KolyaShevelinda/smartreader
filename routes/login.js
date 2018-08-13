@@ -1,21 +1,11 @@
-const accounts = require('../models/accounts');
+const router = require('express').Router();
+const accountsCtrl = require('../controllers/accounts');
+
+router.get('/', function (req, res) {
+    res.render('login');
+});
 
 
-accounts.findOneByEmail()
-    .then(function (user) {
-
-    })
-    .catch(function (error) {
-
-    });
-
-
-accounts.findAll()
-    .then(function (accounts) {
-
-    })
-    .catch(function (error) {
-
-    });
+router.post('/', accountsCtrl.login);
 
 module.exports = router;

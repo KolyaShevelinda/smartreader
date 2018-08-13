@@ -46,6 +46,23 @@ AccountsCtrl.createAccount = function (req, res) {
 };
 
 
+AccountsCtrl.login = function (req, res) {
+    AccountsModel.findOneByEmail(req.body.email, function(err, user) {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        if(!user) {
+            return res.render('login',  {message: "Email/Password incorrect!"});
+        }
+        if (req.body.password === user.password) {
+            res.render('accounts');
+        } else {
+            return res.render("login", { message: "Email/Password incorrect!"});
+        }
+    })
+};
+
+
 module.exports = AccountsCtrl;
 
 

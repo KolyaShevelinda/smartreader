@@ -1,9 +1,9 @@
-html
-  head
-    title= "File upload"
-  body
-    h1= "Please select file:"
-    
-    form(ref='uploadForm' id='uploadForm' action='http://localhost:3000/files/upload' method='post' encType="multipart/form-data")
-        input(name="foo" type="file")
-        input(type='submit' value='Upload!')
+extends layout
+
+block content
+
+  h1= "Please select file:"
+
+  form(ref='uploadForm' id='uploadForm' action='http://localhost:3000/files/upload' method='post' encType="multipart/form-data")
+      input(name="foo" type="file")
+      input(type='submit' value='Upload!')

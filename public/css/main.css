@@ -1,0 +1,20 @@
+.account-wall {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #eee;
+    display: block;
+}
+
+.account-wall .new-account {
+    font-size: 16px;
+    color: #888;
+}
+
+h1.error-message {
+    font-size: 16px;
+    color: #ee0000;
+}
+.account-wall i.fa-user {
+    font-size: 70px;
+}

@@ -4,6 +4,7 @@ const app = express();
 const index = require('./routes/index');
 const upload = require('./routes/upload');
 const accounts = require('./routes/accounts');
+const public = require('./routes/public');
 const bodyParser = require('body-parser');
 
 app.use(fileUpload());
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', index);
 app.use('/files', upload);
 app.use('/users', accounts);
+app.use(express.static('public'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

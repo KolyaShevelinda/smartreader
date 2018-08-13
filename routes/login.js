@@ -17,3 +17,5 @@ accounts.findAll()
     .catch(function (error) {
 
     });
+
+module.exports = router;

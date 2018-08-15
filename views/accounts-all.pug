@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    .page-header
+        h1.text-center All users
+    div.container
+        div.row
+            div.col-xs-12
+                table.table.table-bordered
+                    thead
+                        tr
+                            th.text-center Number
+                            th.text-center Email
+                            th.text-center Actions
+                    tbody
+                        each user, index in users
+                            tr.text-primary
+                                td= index + 1
+                                td= user.email
+                                td
+                                    a(href=user.id)
+                                        button(type="button" class="btn btn-primary") Details

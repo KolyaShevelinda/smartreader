@@ -18,8 +18,9 @@ router.post('/upload', function (req, res) {
         // res.send('File uploaded!');
 
         pdfParser.pdf2json('./files/' + file.name, function (error, pdf) {
-            if (error != null) {
+            if (error) {
                 console.log(error);
+                res.status(500).send(error);
             } else {
                 // console.log(JSON.stringify(pdf.pages[0].texts));
                 // getTextFromPages(pdf.pages);

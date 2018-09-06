@@ -11,9 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "docx-parser": "^0.2.1",
+    "docx2html": "^1.1.0",
+    "docx4js": "^3.1.13",
     "express": "^4.16.3",
     "express-fileupload": "^0.4.0",
-    "pdf-parser": "^1.0.4",
     "pg": "^7.4.3",
     "pug": "^2.0.3"
   }

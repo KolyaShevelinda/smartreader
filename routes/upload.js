@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const pdfParser = require('pdf-parser');
+const docxParser = require('docx-parser');
+const docx2html = require('docx2html');
 
 
 
@@ -17,17 +18,24 @@ router.post('/upload', function (req, res) {
 
         // res.send('File uploaded!');
 
-        pdfParser.pdf2json('./files/' + file.name, function (error, pdf) {
-            if (error != null) {
-                console.log(error);
-            } else {
-                // console.log(JSON.stringify(pdf.pages[0].texts));
-                // getTextFromPages(pdf.pages);
+        // docxParser.parseDocx('./files/' + file.name, function (docx) {
+        //     // if (error != null) {
+        //     //     console.log(error);
+        //     // } else {
+        //     //     // console.log(JSON.stringify(docx.pages[0].texts));
+        //     //     // getTextFromPages(docx.pages);
 
-                res.status(200).send(getTextFromPages(pdf.pages));
-            }
-        });
+        //     //     res.status(200).send(getTextFromPages(docx.pages));
+        //     // }
+        //     // res.status(200).send(docx);
 
+        // });
+
+        docx2html('./files/' + file.name).then(function(html){
+            // html.toString()
+
+            res.status(200).send(html);
+        })
     });
 });
 

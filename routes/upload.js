@@ -1,77 +1,60 @@
 const express = require('express');
 const router = express.Router();
-const docxParser = require('docx-parser');
 const mammoth = require('mammoth');
+const client = require('../db/index');
 
 router.post('/upload', function (req, res) {
     if (!req.files.foo)
         return res.status(400).send('No files were uploaded.');
 
     // console.log(req.files.foo); // the uploaded file object
-    var file = req.files.foo;
+    const file = req.files.foo;
 
     file.mv('./files/' + file.name, function (err) {
         if (err)
             return res.status(500).send(err);
 
-        // res.send('File uploaded!');
+        const filePath = './files/' + file.name;
 
-        // pdfParser.pdf2json('./files/' + file.name, function (error, pdf) {
-        //     if (error) {
-        //         console.log(error);
-        //         res.status(500).send(error);
-        //     } else {
-        // console.log(JSON.stringify(pdf.pages[0].texts));
-        // getTextFromPages(pdf.pages);
-        // docxParser.parseDocx('./files/' + file.name, function (docx) {
-        //     if (error != null) {
-        //         console.log(error);
-        //     } else {
-        //         // console.log(JSON.stringify(docx.pages[0].texts));
-        //         // getTextFromPages(docx.pages);
+        console.log('PATH: ', filePath);
 
-        //         res.status(200).send(getTextFromPages(docx.pages));
-        //     }
-        //     res.status(200).send(docx);
+        let html = '';
+        let text = '';
 
-        // });
-
-        const filepath = './files/' + file.name;
-
-        mammoth.convertToHtml({path: filepath})
+        mammoth.convertToHtml({path: filePath})
             .then(function (result) {
-                var html = result.value;
-                var messages = result.messages;
-                
-            });
-            return res.status(200).send(html);
+                html = result.value;
+                const messages = result.messages;
+                return mammoth.extractRawText({path: filePath});
+            })
+            .then(function (result) {
+                text = result.value;
+                const messages = result.messages;
+                saveDocument(filePath, text, html, function () {
+                    return res.send('OK');
+                });
+
+            })
+            .catch(function (error) {
+                return res.status(500).send(error);
+            })
+
     });
 });
 
 
-function getTextFromPages(pages) {
-    let allText = '';
-    pages.forEach(function (page) {
-        page.texts.forEach(function (pageText) {
-            console.log(JSON.stringify(pageText.text));
-            allText += pageText.text;
-        })
-    });
-
-    return allText;
-}
-
-
-function saveDocument(path, text, html) {
+function saveDocument(path, text, html, cb) {
     const query = 'INSERT INTO documents(path, text, html) VALUES($1, $2, $3) RETURNING *';
     const values = [path, text, html];
 
     // callback
     client.query(query, values, (err, res) => {
         if (err) {
-            console.log(err.stack)
+            console.log(err);
+            console.log(err.stack);
         } else {
-            console.log(res.rows[0])
+            console.log(res.rows[0]);
+            cb();
             // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
         }
     })

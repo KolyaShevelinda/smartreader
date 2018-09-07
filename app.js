@@ -6,6 +6,7 @@ const upload = require('./routes/upload');
 const accounts = require('./routes/accounts');
 const login = require('./routes/login');
 const bodyParser = require('body-parser');
+const documents = require('./routes/documents');
 
 app.use(fileUpload());
 app.use(bodyParser.json());
@@ -16,6 +17,7 @@ app.use('/', index);
 app.use('/files', upload);
 app.use('/users', accounts);
 app.use('/login', login);
+app.use('/documents', documents);
 app.use(express.static('public'));
 
 // catch 404 and forward to error handler

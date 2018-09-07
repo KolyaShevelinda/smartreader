@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const docxParser = require('docx-parser');
-const docx2html = require('docx2html');
-
-
+const mammoth = require('mammoth');
 
 router.post('/upload', function (req, res) {
     if (!req.files.foo)
@@ -27,15 +25,16 @@ router.post('/upload', function (req, res) {
 
         //     //     res.status(200).send(getTextFromPages(docx.pages));
         //     // }
-        //     // res.status(200).send(docx);
+        //     res.status(200).send(docx);
 
         // });
 
-        docx2html('./files/' + file.name).then(function(html){
-            // html.toString()
-
-            res.status(200).send(html);
-        })
+        mammoth.convertToHtml({path: './files/example.docx'})
+            .then(function(html){
+                var html = html.value;
+                res.status(200).send(html);
+            })
+            .done();          
     });
 });
 

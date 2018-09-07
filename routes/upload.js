@@ -16,32 +16,35 @@ router.post('/upload', function (req, res) {
 
         // res.send('File uploaded!');
 
-        pdfParser.pdf2json('./files/' + file.name, function (error, pdf) {
-            if (error) {
-                console.log(error);
-                res.status(500).send(error);
-            } else {
-                // console.log(JSON.stringify(pdf.pages[0].texts));
-                // getTextFromPages(pdf.pages);
+        // pdfParser.pdf2json('./files/' + file.name, function (error, pdf) {
+        //     if (error) {
+        //         console.log(error);
+        //         res.status(500).send(error);
+        //     } else {
+        // console.log(JSON.stringify(pdf.pages[0].texts));
+        // getTextFromPages(pdf.pages);
         // docxParser.parseDocx('./files/' + file.name, function (docx) {
-        //     // if (error != null) {
-        //     //     console.log(error);
-        //     // } else {
-        //     //     // console.log(JSON.stringify(docx.pages[0].texts));
-        //     //     // getTextFromPages(docx.pages);
+        //     if (error != null) {
+        //         console.log(error);
+        //     } else {
+        //         // console.log(JSON.stringify(docx.pages[0].texts));
+        //         // getTextFromPages(docx.pages);
 
-        //     //     res.status(200).send(getTextFromPages(docx.pages));
-        //     // }
+        //         res.status(200).send(getTextFromPages(docx.pages));
+        //     }
         //     res.status(200).send(docx);
 
         // });
 
-        mammoth.convertToHtml({path: './files/example.docx'})
-            .then(function(html){
-                var html = html.value;
-                res.status(200).send(html);
-            })
-            .done();          
+        const filepath = './files/' + file.name;
+
+        mammoth.convertToHtml({path: filepath})
+            .then(function (result) {
+                var html = result.value;
+                var messages = result.messages;
+                
+            });
+            return res.status(200).send(html);
     });
 });
 

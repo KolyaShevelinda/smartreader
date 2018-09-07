@@ -2,8 +2,11 @@ extends layout
 
 block content
 
-  h1= "Please select file:"
 
-  form(ref='uploadForm' id='uploadForm' action='http://localhost:3000/files/upload' method='post' encType="multipart/form-data")
-      input(name="foo" type="file")
-      input(type='submit' value='Upload!')
+    .container
+        h2.text-center.text-primary= "Please select document for uploading:"
+
+        form.navbar-form.navbar-left(ref='uploadForm' id='uploadForm' action='/files/upload' method='post' encType="multipart/form-data")
+            .form-group
+                input.form-control#exampleInputFile(name="foo" type="file")
+            button.btn.btn-primary(type='submit') UPLOAD

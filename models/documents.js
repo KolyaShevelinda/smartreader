@@ -1,4 +1,4 @@
-const client = require('./db/index');
+const client = require('../db/index');
 
 let DocumentModel = {};
 
@@ -9,3 +9,5 @@ DocumentModel.findAll = function (cb) {
         cb(err, res.rows);
     });
 };
+
+module.exports = DocumentModel;
